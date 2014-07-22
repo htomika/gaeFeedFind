@@ -1,0 +1,43 @@
+
+Test project for parsing html (Python)
+==================================
+
+This is a test project for experimenting with python html parsing on Google App Engine.
+
+Uses:
+-------------------------------
+
+1) Google App Engine
+
+2) BeautifulSoap
+
+3) AngularJS
+
+4) Google Cloud Endpoints (REST)
+
+5) Pusher
+
+6) App Engine Task Queues, defer library
+
+
+Step-by-step guide for using the parser:
+------------------------------------------------------------
+
+1) Locate the index page (/)
+
+2) Log in with Google Accounts (saves the query with the account name, so previous queries can be reviewed)
+
+3) Type in the URL
+
+4) Wait for results, or submit another one (the deferred process sends an update message on the Pusher channel to the client to update the table)
+
+5) Come back and review results
+
+
+ToDo:
+------------------------------------------------------------
+
+- Auth for REST backend (instead of the present users.get_current_user())
+- Private channel w/ auth for Pusher
+- Non-Standard feed link recognition
+
