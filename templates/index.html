@@ -39,8 +39,12 @@
   <output id="outputLog"></output>
 
   <form ng-submit="addUrl()">
-    <input type="text" ng-model="newurl" size="50"><br>
-    <input type="submit" class="btn" value="Parse">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="newurl">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Parse!</button>
+      </span>
+    </div>
   </form>
 
   <button ng-click="reportList()" class="btn btn-default">Reload</button>

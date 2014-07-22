@@ -5,15 +5,20 @@
 Responsible for building web forms, providing get and post handlers, and
 maintaining user interface.
 """
+import logging
+from google.appengine.ext import deferred
 
 import os
 # import logging
 
 import webapp2
+from webapp2_extras import json
 import jinja2
 from google.appengine.api import users
 
 from models import Report
+from parser_functions import parsepage
+from utils import JSONEncoder
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -46,6 +51,47 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
 
+class ScheduleReport(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        if user:
+            data = json.decode(self.request.body)
+            # logging.log(logging.INFO, data)
+            url = data['url']
+            if url[:3] != 'http':
+                url = 'http://' + url
+            report = Report(
+                author=user,
+                url=url,
+                status='SENT'
+            )
+            key = report.put()
+            deferred.defer(parsepage, key, _countdown=30, _queue="parsequeue")
+            result = {
+                'result': JSONEncoder().encode(key.get()),
+            }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.encode(result))
+
+
+class Data(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        if user:
+            # data = json.loads(self.request.body)
+            reports = Report.query(Report.author == user).fetch()
+
+            # json_query_data = JSONEncoder().encode(reports)
+            result = {
+                'result': reports,
+                'total': len(reports)
+            }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(JSONEncoder().encode(result))
+
+
 application = webapp2.WSGIApplication([
                                           ('/', MainPage),
+                                          ('/scheduleReport', ScheduleReport),
+                                          ('/data', Data)
                                       ], debug=True)

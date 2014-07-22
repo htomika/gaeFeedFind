@@ -9,10 +9,6 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
-- name: pycrypto
-  version: latest
-- name: endpoints
-  version: 1.0
 
 builtins:
 - deferred: on
@@ -21,26 +17,16 @@ handlers:
 - url: /static
   static_dir: static
 
-# Endpoints handler
-- url: /_ah/spi/.*
-  script: parser_api.APPLICATION
+- url: /scheduleReport
+  script: main.application
+  login: required
 
-#- url: /scheduleReport
-#  script: main.application
-#  login: required
-#
-#- url: /data
-#  script: main.application
-#  login: required
+- url: /data
+  script: main.application
+  login: required
 
 # Main page
 - url: /.*
   script: main.application
   login: required
-  secure: optional
-
-#- url: /
-#  static_files: templates/index.html
-#  upload: templates/index\.html
-#  secure: always
-#  login: required
+  secure: always

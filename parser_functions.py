@@ -10,7 +10,7 @@ from google.appengine.api import urlfetch
 
 
 def parsepage(k):
-    report = k
+    report = k.get()
     report.status = 'STARTED'
     report.put()
     error = False

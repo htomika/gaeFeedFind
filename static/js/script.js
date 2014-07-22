@@ -13,30 +13,25 @@ var app = angular.module('main', ['ngTable'])
 //            .setOptions({})
 //    }]);
 //app.controller('ParserCtrl', function ($scope, ngTableParams, Pusher, $window) {
-app.controller('ParserCtrl', function ($scope, ngTableParams, $window) {
-        $scope.is_backend_ready = false;
+app.controller('ParserCtrl', function ($scope, ngTableParams, $http) {
+        $scope.is_backend_ready = true;
         $scope.reports = [];
 
-        $scope.load_feedfind_lib = function () {
-            gapi.client.load('feedfind', 'v1', function () {
-                $scope.is_backend_ready = true;
-                $scope.reportList();
-            }, '/_ah/api');
-        };
 
         $scope.addUrl = function () {
-            message = {
-                "url": $scope.newurl
-            };
-            gapi.client.feedfind.reports.insert(message).execute();
-        }
+            $http.post('/scheduleReport', {url: $scope.newurl}).success(function (data) {
+                $scope.reports.push(data.result);
+                $scope.total = data.total;
+            });
+        };
 
         $scope.reportList = function () {
-            gapi.client.feedfind.reports.list().execute(function (resp) {
-                $scope.reports = resp.items;
-                $scope.$apply();
+            $http.post('/data', {}).success(function (data) {
+                $scope.reports = data.result;
+                $scope.total = data.total;
             });
-        }
+        };
+
         $scope.total = function () {
             return $scope.reports.length
         };
@@ -61,8 +56,5 @@ app.controller('ParserCtrl', function ($scope, ngTableParams, $window) {
 //            }
 //        });
 
-        angular.element(document).ready(function () {
-            $scope.$apply($scope.load_feedfind_lib);
-        });
     }
 );

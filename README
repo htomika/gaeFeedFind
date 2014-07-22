@@ -13,9 +13,9 @@ Uses:
 
 3) AngularJS
 
-4) Google Cloud Endpoints (REST)
+4) Google Cloud Endpoints (REST) - (suspended, fallback to ajax)
 
-5) Pusher
+5) Pusher (suspended, gae socket limited)
 
 6) App Engine Task Queues, defer library
 
@@ -29,7 +29,8 @@ Step-by-step guide for using the parser:
 
 3) Type in the URL
 
-4) Wait for results, or submit another one (the deferred process sends an update message on the Pusher channel to the client to update the table)
+4) Wait a sec and click Reload
+  - (Wait for results, or submit another one (the deferred process sends an update message on the Pusher channel to the client to update the table))
 
 5) Come back and review results
 
@@ -37,6 +38,7 @@ Step-by-step guide for using the parser:
 ToDo:
 ------------------------------------------------------------
 
+- REST backend replacement (https://code.google.com/p/appengine-rest-server)
 - Auth for REST backend (instead of the present users.get_current_user())
 - Private channel w/ auth for Pusher
 - Non-Standard feed link recognition
