@@ -20,8 +20,10 @@ app.controller('ParserCtrl', function ($scope, ngTableParams, $http) {
 
         $scope.addUrl = function () {
             $http.post('/scheduleReport', {url: $scope.newurl}).success(function (data) {
+                $scope.reports = [];
                 $scope.reports.push(data.result);
                 $scope.total = data.total;
+                $scope.apply();
             });
         };
 
@@ -29,6 +31,7 @@ app.controller('ParserCtrl', function ($scope, ngTableParams, $http) {
             $http.post('/data', {}).success(function (data) {
                 $scope.reports = data.result;
                 $scope.total = data.total;
+                $scope.apply();
             });
         };
 
