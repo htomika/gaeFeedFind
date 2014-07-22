@@ -1,18 +1,12 @@
 from google.appengine.api import users
-from google.appengine.ext.deferred import deferred
 from parse_api_messages import ReportResponseMessage
-from parser import parsepage
+# from parser import parsepage
 
 __author__ = 'style'
 
 from google.appengine.ext import ndb
 
 TIME_FORMAT_STRING = '%b %d, %Y %I:%M:%S %p'
-
-
-class FeedResult(object):
-    rss = ndb.StringProperty(repeated=True)
-    atom = ndb.StringProperty(repeated=True)
 
 
 class Report(ndb.Model):
@@ -77,6 +71,6 @@ class Report(ndb.Model):
         current_user = users.get_current_user()
         return cls.query(cls.author == current_user)
 
-    @classmethod
-    def parse_page(self):
-        return deferred.defer(parsepage, self, _countdown=30, _queue="parsequeue")
+    # @classmethod
+    # def parse_page(self):
+    #     return deferred.defer(parsepage, self, _countdown=30, _queue="parsequeue")

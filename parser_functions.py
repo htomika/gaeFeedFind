@@ -2,10 +2,11 @@ __author__ = 'style'
 
 from BeautifulSoup import BeautifulSoup
 from google.appengine.api import urlfetch
-import pusher
+# import pusher
 # import logging
-from utils import JSONEncoder, GAEChannelFix
-from constants import PUSHER
+# from utils import JSONEncoder, GAEChannelFix
+# from utils import JSONEncoder
+# from constants import PUSHER
 
 
 def parsepage(k):
@@ -31,15 +32,14 @@ def parsepage(k):
         report.feeds = unicode({"error": "URL fetch fail: %s" % status})
         report.status = 'FAIL'
     report.put()
-    p = pusher.Pusher(
-        app_id=PUSHER['app_id'],
-        key=PUSHER['key'],
-        secret=PUSHER['secret']
-    )
-    pusher.channel_type = GAEChannelFix
-    # p['private-reports'].trigger('update', JSONEncoder().encode(report))
+    # p = pusher.Pusher(
+    #     app_id=PUSHER['app_id'],
+    #     key=PUSHER['key'],
+    #     secret=PUSHER['secret']
+    # )
+    # pusher.channel_type = GAEChannelFix
     # logging.log(logging.INFO, "report: %s" % report.to_dict())
-    p['reports'].trigger('update', JSONEncoder().encode(report.to_dict()))
+    # p['reports'].trigger('update', JSONEncoder().encode(report.to_dict()))
 
 
 def detect_feeds_in_HTML(input):

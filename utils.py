@@ -4,10 +4,10 @@ __author__ = 'style'
 
 from datetime import datetime, date, time
 import json
-import socket
+# import socket
 from google.appengine.ext import ndb
 
-from pusher import GoogleAppEngineChannel, AuthenticationError, NotFoundError, AppDisabledOrMessageQuotaError, UnexpectedReturnStatusError
+# from pusher import GoogleAppEngineChannel, AuthenticationError, NotFoundError, AppDisabledOrMessageQuotaError, UnexpectedReturnStatusError
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -25,22 +25,22 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)  # Or whatever other date format you're OK with...
 
 
-class GAEChannelFix(GoogleAppEngineChannel):
-    def trigger(self, event, data={}, socket_id=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
-        json_data = json.dumps(data, cls=self.pusher.encoder)
-        query_string = self.signed_query(event, json_data, socket_id)
-        signed_path = "%s?%s" % (self.path, query_string)
-        status, resp_content = self.send_request(signed_path, json_data)
-        if status == 202:
-            return True
-        elif status == 401:
-            raise AuthenticationError("Status: 401; Message: %s" % resp_content)
-        elif status == 404:
-            raise NotFoundError("Status: 404; Message: %s" % resp_content)
-        elif status == 403:
-            raise AppDisabledOrMessageQuotaError("Status: 403; Message: %s" % resp_content)
-        else:
-            raise UnexpectedReturnStatusError("Status: %s; Message: %s" % (status, resp_content))
+# class GAEChannelFix(GoogleAppEngineChannel):
+#     def trigger(self, event, data={}, socket_id=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+#         json_data = json.dumps(data, cls=self.pusher.encoder)
+#         query_string = self.signed_query(event, json_data, socket_id)
+#         signed_path = "%s?%s" % (self.path, query_string)
+#         status, resp_content = self.send_request(signed_path, json_data)
+#         if status == 202:
+#             return True
+#         elif status == 401:
+#             raise AuthenticationError("Status: 401; Message: %s" % resp_content)
+#         elif status == 404:
+#             raise NotFoundError("Status: 404; Message: %s" % resp_content)
+#         elif status == 403:
+#             raise AppDisabledOrMessageQuotaError("Status: 403; Message: %s" % resp_content)
+#         else:
+#             raise UnexpectedReturnStatusError("Status: %s; Message: %s" % (status, resp_content))
 
 
 

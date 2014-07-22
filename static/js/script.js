@@ -3,15 +3,17 @@
  */
 
 // https://github.com/Sfeir/hello-world-oauth2-endpoints-angularjs/tree/master/src/main/webapp/js
-
-var app = angular.module('main', ['ngTable', 'doowb.angular-pusher'])
-app.config(['PusherServiceProvider',
-    function (PusherServiceProvider) {
-        PusherServiceProvider
-            .setToken('b4646cbdcd6f65dae3f8')
-            .setOptions({})
-    }]);
-app.controller('ParserCtrl', function ($scope, ngTableParams, Pusher, $window) {
+//
+var app = angular.module('main', ['ngTable'])
+//var app = angular.module('main', ['ngTable', 'doowb.angular-pusher'])
+//app.config(['PusherServiceProvider',
+//    function (PusherServiceProvider) {
+//        PusherServiceProvider
+//            .setToken('b4646cbdcd6f65dae3f8')
+//            .setOptions({})
+//    }]);
+//app.controller('ParserCtrl', function ($scope, ngTableParams, Pusher, $window) {
+app.controller('ParserCtrl', function ($scope, ngTableParams, $window) {
         $scope.is_backend_ready = false;
         $scope.reports = [];
 
@@ -49,15 +51,15 @@ app.controller('ParserCtrl', function ($scope, ngTableParams, Pusher, $window) {
             total: $scope.total()           // length of data
         });
 
-        Pusher.subscribe('reports', 'update', function (item) {
-            // an item was updated. find it in our list and update it.
-            for (var i = 0; i < $scope.reports.length; i++) {
-                if ($scope.reports[i].id === item.id) {
-                    $scope.reports[i] = item;
-                    break;
-                }
-            }
-        });
+//        Pusher.subscribe('reports', 'update', function (item) {
+//            // an item was updated. find it in our list and update it.
+//            for (var i = 0; i < $scope.reports.length; i++) {
+//                if ($scope.reports[i].id === item.id) {
+//                    $scope.reports[i] = item;
+//                    break;
+//                }
+//            }
+//        });
 
         angular.element(document).ready(function () {
             $scope.$apply($scope.load_feedfind_lib);

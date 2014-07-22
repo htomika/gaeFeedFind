@@ -25,11 +25,19 @@ handlers:
 - url: /_ah/spi/.*
   script: parser_api.APPLICATION
 
+#- url: /scheduleReport
+#  script: main.application
+#  login: required
+#
+#- url: /data
+#  script: main.application
+#  login: required
+
 # Main page
 - url: /.*
   script: main.application
   login: required
-  secure: always
+  secure: optional
 
 #- url: /
 #  static_files: templates/index.html

@@ -5,13 +5,15 @@ as well as those methods defined in an API.
 """
 from google.appengine.api import users
 import endpoints
+from google.appengine.ext import deferred
 from protorpc import messages
 from protorpc import message_types
 from protorpc import remote
 from models import Report
-from parser import parsepage
 from parse_api_messages import ReportResponseMessage, ReportRequestMessage, ReportsListRequest, ReportsListResponse
 from constants import CLIENT_ID
+from parser_functions import parsepage
+import logging
 
 package = 'FeedFind'
 
@@ -54,21 +56,22 @@ class FeedFindApi(remote.Service):
                       path='reports', http_method='POST',
                       name='reports.insert')
     def reports_insert(self, request):
-        """Exposes an API endpoint to insert a score for the current user.
+        """Exposes an API endpoint to insert a report for the current user.
 
         Args:
-            request: An instance of ScoreRequestMessage parsed from the API
+            request: An instance of ReportRequestMessage parsed from the API
                 request.
 
         Returns:
-            An instance of ScoreResponseMessage containing the score inserted,
-            the time the score was inserted and the ID of the score.
+            An instance of ReportResponseMessage containing the report inserted,
+            the time the report was inserted and the ID of the report.
         """
         current_user = users.get_current_user()
         if not current_user:
-            raise endpoints.ForbiddenException()
+            logging.log(logging.INFO, current_user)
+            # raise endpoints.ForbiddenException()
         entity = Report.put_from_message(request)
-        entity.parse_page()
+        deferred.defer(parsepage, entity, _countdown=30, _queue="parsequeue")
         return entity.to_message()
 
     ID_RESOURCE = endpoints.ResourceContainer(
