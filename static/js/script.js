@@ -4,7 +4,7 @@
 
 // https://github.com/Sfeir/hello-world-oauth2-endpoints-angularjs/tree/master/src/main/webapp/js
 //
-var app = angular.module('main', ['ngTable'])
+var app = angular.module('main', ['ngTable']);
 //var app = angular.module('main', ['ngTable', 'doowb.angular-pusher'])
 //app.config(['PusherServiceProvider',
 //    function (PusherServiceProvider) {

@@ -50,13 +50,12 @@
   <button ng-click="reportList()" class="btn btn-default">Reload</button>
   <button ng-click="tableParams.sorting({})" class="btn btn-default">Clear sorting</button>
   <div class="clearfix"></div>
-  <div loading-container="tableParams.settings().$loading">
+  <div>
     <table ng-table="tableParams" show-filter="true" class="table">
       <tbody>
       <tr ng-repeat="report in reports">
         <td data-title="'URL'" filter="{ 'url': 'text' }" sortable="url">
           {{report.url}}
-          {{$loading}}
         </td>
         <td data-title="'When'" sortable="date">
           {{report.date}}
@@ -86,6 +85,7 @@
 <script src="/static/js/angular.js"></script>
 {#<script src="/static/js/angular-pusher.min.js"></script>#}
 <script src="/static/js/ng-table.js"></script>
+<script src="/static/js/loadingContainer.js"></script>
 <script src="/static/js/script.js"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
